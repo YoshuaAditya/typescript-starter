@@ -7,6 +7,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
+    this.appService.axiosPOST();
     return this.appService.getHello();
   }
 }
