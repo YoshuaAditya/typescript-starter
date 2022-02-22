@@ -7,7 +7,12 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    this.appService.axiosPOST();
+    this.appService.axiosPOST('dot');
+    this.appService.axiosGET('1');
+    this.appService.axiosPATCH('2');
+    this.appService.axiosPUT('3');
+    this.appService.axiosDELETE('4');
+
     return this.appService.getHello();
   }
 }

@@ -5,50 +5,57 @@ const axios = require('axios').default;
 export class AppService {
   getHello(): string {
     return 'Hello World!';
+
   }
-  axiosPOST(): void{
-    axios.post('/user', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
+  axiosPOST(body:string): void{
+    axios.post('https://jsonplaceholder.typicode.com/posts', {
+      title: 'DOT',
+      body: body,
+      userId: 2,
     })
     .then(function (response) {
-      console.log(response);
+      console.log(response.data);
     })
     .catch(function (error) {
       console.log(error);
-    });;
-  }
-  axiosGET():void{
-    axios.get('/user', {
-      params: {
-        ID: 12345
-      }
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
     });
   }
-  axiosPUT():void{
-    axios.put('/user', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
+
+  axiosGET(userId:string):void{
+    axios.get("https://jsonplaceholder.typicode.com/posts/"+userId)
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  axiosPUT(userId:string):void{
+    axios.put('https://jsonplaceholder.typicode.com/posts/'+userId, {
+      id:3,
+      title: 'put',
+      body: 'put',
+      userId: 2,
+    })
+    .then(function (response) {
+      console.log(response.data);
     })
   }
-  axiosPATCH():void{
-    axios.patch('/user', {
-      firstName: 'PATCHED',
-      lastName: 'PATCHED'
+
+  axiosPATCH(userId:string):void{
+    axios.patch('https://jsonplaceholder.typicode.com/posts/'+userId, {
+      title:'PATCHED'
+    })
+    .then(function (response) {
+      console.log(response.data);
     })
   }
-  axiosDELETE():void{
-    axios.delete('/user', {
-      firstName: 'Fred',
+
+  axiosDELETE(userId:string):void{
+    axios.delete('https://jsonplaceholder.typicode.com/posts/'+userId)
+    .then(function (response) {
+      console.log(response.data);
     })
   }
 }
