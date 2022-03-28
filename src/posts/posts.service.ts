@@ -37,9 +37,31 @@ export class PostsServices {
     .catch(function (error) {
       console.log(error);
     });
+  }
 
+//to restart mysql server use cmd services.msc then start mysql service
+  post(): void {
+    axios.get("https://jsonplaceholder.typicode.com/posts/1")
+    .then(function (response) {
+      //localhost request do not need https
+      axios.post('http://localhost:3000/posts', {
+        userId: response.data.userId,
+        title: response.data.title,
+        body: response.data.body
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
   }
+
   findAll(): Promise<Posts[]> {
     return this.postRepository.find();
   }

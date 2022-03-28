@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { PostsModule } from './posts/posts.module';
 import { Posts } from './posts/post.entity';
 

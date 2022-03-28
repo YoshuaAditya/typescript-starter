@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -14,5 +14,12 @@ export class AppController {
     this.appService.axiosDELETE('4');
 
     return this.appService.getHello();
+  }
+
+  @Get('test')
+  getTest(@Req() req, @Res() res): string {
+    const name=req.query['name'];
+
+    return res.send('<h1>Hello ${name}</h1>');
   }
 }
