@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { PostsModule } from './posts/posts.module';
 import { Posts } from './posts/post.entity';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { Posts } from './posts/post.entity';
       database: 'test',
       entities: [Posts],
       synchronize: true,
-    }),PostsModule],
+    }),PostsModule, AuthModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
