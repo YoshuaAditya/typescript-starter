@@ -2,18 +2,30 @@ import { Controller, Get, Post, Req, Res, Request, UseGuards } from '@nestjs/com
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from './auth/local-auth.guard'
+import { JwtAuthGuard } from './auth/jwt-auth.guard'
+import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private authService: AuthService) {}
 
 //in tuto error curl -X POST http://localhost:3000/auth/login -d '{"username": "john", "password": "changeme"}' -H "Content-Type: application/json"
 //it should be curl -X POST http://localhost:3000/auth/login -d "{\"username\": \"john\", \"password\": \"changeme\"}" -H "Content-Type: application/json"
+//goto file local-authguard, then LocalStrategy, if userinfo is correct returns const result(which has jsondata user, which password is stripped)  from authService
+//the result is a jwt token which will be used to protect endpoints by requesting this jwt token
   @UseGuards(LocalAuthGuard)
     @Post('auth/login')
     async login(@Request() req) {
-      return req.user;
+      return this.authService.login(req.user);
     }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
 
   @Get()
   getHello(): string {
