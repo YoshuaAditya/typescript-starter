@@ -7,6 +7,7 @@ import { PostsModule } from './posts/posts.module';
 import { Posts } from './posts/post.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { Users } from './users/user.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { UsersModule } from './users/users.module';
       username: 'user',
       password: 'user',
       database: 'test',
-      entities: [Posts],
+      entities: [Posts, Users],
       synchronize: true,
     }),PostsModule, AuthModule, UsersModule],
   controllers: [AppController],
