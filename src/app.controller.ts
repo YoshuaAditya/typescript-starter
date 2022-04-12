@@ -4,6 +4,7 @@ import { UsersService } from './users/users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from './auth/local-auth.guard'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
+import { GoogleOauthGuard } from './google-oauth/google-oauth.guard'
 import { RolesGuard } from './enums/roles.guard'
 import { AuthService } from './auth/auth.service';
 import { Users } from './users/user.entity';
@@ -25,6 +26,16 @@ export class AppController {
     @Post('auth/login')
     async login(@Request() req) {
       return this.authService.login(req.user);
+    }
+
+    //another weird shit
+    //first from auth/google u automatically go to google login page
+    //after login it runs redirect, in this case it goes here
+    //use the GoogleOauthGuard again to validate the informatino
+    @UseGuards(GoogleOauthGuard)
+    @Get('profile/google')
+    getProfilGoogle(@Request() req) {
+      return req.user;
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
