@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Req, Res, Request, UseGuards, Param, Render } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Request, UseGuards, Param, Render, SetMetadata } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UsersService } from './users/users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from './auth/local-auth.guard'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
+import { RolesGuard } from './enums/roles.guard'
 import { AuthService } from './auth/auth.service';
 import { Users } from './users/user.entity';
+import { Role } from './enums/role.enum';
+import { Roles } from './enums/roles.decorator';
 
 @Controller()
 export class AppController {
@@ -24,9 +27,11 @@ export class AppController {
       return this.authService.login(req.user);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Get('profile')
+    @Roles(Role.Admin)
     getProfile(@Request() req) {
+      console.log(req);
       return req.user;
     }
 
@@ -41,21 +46,28 @@ export class AppController {
       return this.appService.getHello();
     }
 
-    @Get('/login')
+    @Get('login')
     @Render('login')
     root() {
       return { title: 'Hello world!' };
     }
 
-    @Get('/register')
+    @Get('register')
     @Render('register')
     registerUser(@Res() res){
       return { title:"Register" };
     }
 
-    @Post('/register')
+    @Post('register')
     async saveUserData(@Request() req){
       await this.usersService.register(req.body);
+    }
+
+    //reminder that route orders are important! and use `` not '' for this test
+    @Get('test')
+    getTest(@Req() req, @Res() res): string {
+      const name=req.query["name"];
+      return res.send(`<h1>Hello ${name}</h1>`);
     }
 
     @Get(':username')
@@ -63,10 +75,4 @@ export class AppController {
       return this.usersService.findOne(id);
     }
 
-    @Get('test')
-    getTest(@Req() req, @Res() res): string {
-      const name=req.query['name'];
-
-      return res.send('<h1>Hello ${name}</h1>');
-    }
   }

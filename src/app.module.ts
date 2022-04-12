@@ -8,6 +8,8 @@ import { Posts } from './posts/post.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/user.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './enums/roles.guard';
 
 @Module({
   imports: [
@@ -22,7 +24,9 @@ import { Users } from './users/user.entity';
       synchronize: true,
     }),PostsModule, AuthModule, UsersModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService
+  ],
 })
 export class AppModule {
   constructor(private connection: Connection) {}

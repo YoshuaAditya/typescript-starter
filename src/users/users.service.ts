@@ -19,6 +19,7 @@ export class UsersService {
       const user = new Users();
       user.username = createUserDto.username;
       user.password = encryptedPassword;
+      user.roles = createUserDto.roles;
 
       return this.userRepository.save(user);
     }

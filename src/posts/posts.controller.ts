@@ -24,12 +24,10 @@ export class PostsController {
     return this.postsService.post();
   }
 
-  @Get()
-  async findAll() {
+  @Get('all')
+  findAll() {
     //async untuk console log promise
-    const x = await this.postsService.findAll();
-    console.log(x.at(4).body);
-    return x;
+    return this.postsService.findAll();
   }
 
   @Get(':id')
